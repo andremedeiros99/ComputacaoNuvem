@@ -25,7 +25,7 @@ def manage_clients():
         db.session.commit()
         return redirect(url_for('manage_clients'))
     clients = Client.query.all()
-    return render_template('list_clients.html', form=form, clients=clients)
+    return render_template('list_client.html', form=form, clients=clients)
 
 @app.route('/clients/<int:id>/edit', methods=['GET', 'POST'])
 def edit_client(id):
