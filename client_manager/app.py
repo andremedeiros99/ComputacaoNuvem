@@ -14,24 +14,27 @@ def index():
 @app.route('/clients', methods=['GET'])
 def list_client():
     clients = Client.query.all()  # Supondo que você tenha um modelo Client
+    print(clients)
     return render_template('list_client.html', clients=clients)
 
-@app.route('/add_client', methods=['GET', 'POST'])
 def add_client():
-    form = ClientForm()  # Inicializa o formulário
+    form = ClientForm()
     if form.validate_on_submit():
-        # Crie um novo cliente usando os dados do formulário
         new_client = Client(
             name=form.name.data,
             cpf=form.cpf.data,
             birth_date=form.birth_date.data,
             email=form.email.data
         )
-        # Adicione o cliente ao banco de dados
-        db.session.add(new_client)  # Assegure-se de que db esteja configurado corretamente
-        db.session.commit()
-        return redirect(url_for('list_client'))  # Redirecione para a lista de clientes
-    return render_template('add_client.html', form=form)  # Renderize um template para adicionar cliente
+        db.session.add(new_client)
+        try:
+            db.session.commit()  # Isso deve ser envolvido em um bloco try
+            flash('Cliente adicionado com sucesso!', 'success')
+            return redirect(url_for('list_client'))
+        except Exception as e:
+            db.session.rollback()  # Reverte a sessão em caso de erro
+            flash(f'Erro ao adicionar cliente: {e}', 'danger')  # Exibe uma mensagem de erro
+    return render_template('add_client.html', form=form)
 
 @app.route('/clients/<int:id>/edit', methods=['GET', 'POST'])
 def edit_client(id):
