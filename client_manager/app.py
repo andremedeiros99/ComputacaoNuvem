@@ -3,6 +3,9 @@ from models import db, Client
 from forms import ClientForm
 from config import Config
 
+with app.app_context():
+    db.create_all()
+
 app = Flask(__name__)
 app.config.from_object(Config)
 db.init_app(app)
