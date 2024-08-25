@@ -17,6 +17,7 @@ def list_client():
     print(clients)
     return render_template('list_client.html', clients=clients)
 
+@app.route('/add_client', methods=['GET', 'POST'])
 def add_client():
     form = ClientForm()
     if form.validate_on_submit():
