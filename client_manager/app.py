@@ -11,21 +11,27 @@ db.init_app(app)
 def index():
     return render_template('index.html')
 
-@app.route('/clients', methods=['GET', 'POST'])
-def manage_clients():
-    form = ClientForm()
+@app.route('/clients', methods=['GET'])
+def list_clients():
+    clients = Client.query.all()  # Supondo que você tenha um modelo Client
+    return render_template('list_clients.html', clients=clients)
+
+@app.route('/add_client', methods=['GET', 'POST'])
+def add_client():
+    form = ClientForm()  # Inicializa o formulário
     if form.validate_on_submit():
+        # Crie um novo cliente usando os dados do formulário
         new_client = Client(
             name=form.name.data,
             cpf=form.cpf.data,
             birth_date=form.birth_date.data,
             email=form.email.data
         )
-        db.session.add(new_client)
+        # Adicione o cliente ao banco de dados
+        db.session.add(new_client)  # Assegure-se de que db esteja configurado corretamente
         db.session.commit()
-        return redirect(url_for('manage_clients'))
-    clients = Client.query.all()
-    return render_template('list_client.html', form=form, clients=clients)
+        return redirect(url_for('list_clients'))  # Redirecione para a lista de clientes
+    return render_template('add_client.html', form=form)  # Renderize um template para adicionar cliente
 
 @app.route('/clients/<int:id>/edit', methods=['GET', 'POST'])
 def edit_client(id):
