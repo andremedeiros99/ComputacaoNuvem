@@ -8,7 +8,7 @@ class Config:
     DB_USERNAME = 'postgres'
     DB_PASSWORD = 'mydbpassword112233'
     DB_HOST = 'database-1.cxwo80o00d0k.us-east-2.rds.amazonaws.com'
-    DB_NAME = 'database-1'
+    DB_NAME = 'postgres'
     DB_PORT = 5432 
     
     SQLALCHEMY_DATABASE_URI = f'postgresql://{DB_USERNAME}:{DB_PASSWORD}@{DB_HOST}/{DB_NAME}'
