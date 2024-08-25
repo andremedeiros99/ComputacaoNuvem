@@ -29,12 +29,18 @@ def add_client():
         )
         db.session.add(new_client)
         try:
-            db.session.commit()  # Isso deve ser envolvido em um bloco try
+            db.session.commit()
             flash('Cliente adicionado com sucesso!', 'success')
             return redirect(url_for('list_client'))
         except Exception as e:
-            db.session.rollback()  # Reverte a sessão em caso de erro
-            flash(f'Erro ao adicionar cliente: {e}', 'danger')  # Exibe uma mensagem de erro
+            db.session.rollback()
+            flash(f'Erro ao adicionar cliente: {e}', 'danger')
+    else:
+        #imprimir erros de validação
+        for field, errors in form.errors.items():
+            for error in errors:
+                flash(f'Erro em {field}: {error}', 'danger')
+                
     return render_template('add_client.html', form=form)
 
 @app.route('/clients/<int:client_id>/edit', methods=['GET', 'POST'])
