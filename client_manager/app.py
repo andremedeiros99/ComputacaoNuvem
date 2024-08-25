@@ -37,9 +37,9 @@ def add_client():
             flash(f'Erro ao adicionar cliente: {e}', 'danger')  # Exibe uma mensagem de erro
     return render_template('add_client.html', form=form)
 
-@app.route('/clients/<int:id>/edit', methods=['GET', 'POST'])
-def edit_client(id):
-    client = Client.query.get_or_404(id)
+@app.route('/clients/<int:client_id>/edit', methods=['GET', 'POST'])
+def edit_client(client_id):
+    client = Client.query.get_or_404(client_id)
     form = ClientForm(obj=client)
     if form.validate_on_submit():
         form.populate_obj(client)
@@ -47,9 +47,9 @@ def edit_client(id):
         return redirect(url_for('list_client'))
     return render_template('edit_client.html', form=form, client=client)
 
-@app.route('/clients/<int:id>/delete', methods=['POST'])
-def delete_client(id):
-    client = Client.query.get_or_404(id)
+@app.route('/clients/<int:client_id>/delete', methods=['POST'])
+def delete_client(client_id):
+    client = Client.query.get_or_404(client_id)
     db.session.delete(client)
     db.session.commit()
     return redirect(url_for('list_client'))
