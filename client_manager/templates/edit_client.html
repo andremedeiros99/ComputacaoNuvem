@@ -4,21 +4,22 @@
 {% block content %}
     <h2>Editar Cliente</h2>
     <form action="{{ url_for('edit_client', client_id=client.id) }}" method="POST">
+        {{ form.hidden_tag() }}
         <div class="form-group">
             <label for="name">Nome</label>
-            <input type="text" class="form-control" id="name" name="name" value="{{ client.name }}" required>
+            {{ form.name(class="form-control", required=True) }}
         </div>
         <div class="form-group">
             <label for="cpf">CPF</label>
-            <input type="text" class="form-control" id="cpf" name="cpf" value="{{ client.cpf }}" required>
+            {{ form.cpf(class="form-control", required=True) }}
         </div>
         <div class="form-group">
             <label for="birthdate">Data de Nascimento</label>
-            <input type="date" class="form-control" id="birthdate" name="birthdate" value="{{ client.birthdate }}" required>
+            {{ form.birth_date(class="form-control", required=True, format='%Y-%m-%d') }}
         </div>
         <div class="form-group">
             <label for="email">Email</label>
-            <input type="email" class="form-control" id="email" name="email" value="{{ client.email }}" required>
+            {{ form.email(class="form-control", required=True) }}
         </div>
         <button type="submit" class="btn btn-primary">Salvar Alterações</button>
     </form>

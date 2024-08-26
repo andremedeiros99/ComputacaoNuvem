@@ -47,11 +47,19 @@ def add_client():
 def edit_client(client_id):
     client = Client.query.get_or_404(client_id)
     form = ClientForm(obj=client)
+
+    print(f"Is form submitted? {form.is_submitted()}")
+    print(f"Does form validate? {form.validate()}")
+
     if form.validate_on_submit():
+        print("Form is valid!")
         form.populate_obj(client)
         db.session.commit()
+        flash('Cliente atualizado com sucesso!', 'success')
         return redirect(url_for('list_client'))
+    
     return render_template('edit_client.html', form=form, client=client)
+
 
 @app.route('/clients/<int:client_id>/delete', methods=['POST'])
 def delete_client(client_id):
