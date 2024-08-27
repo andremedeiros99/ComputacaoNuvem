@@ -63,6 +63,7 @@ def edit_client(client_id):
 
 @app.route('/clients/<int:client_id>/delete', methods=['POST'])
 def delete_client(client_id):
+    print(request.method)
     client = Client.query.get_or_404(client_id)
     db.session.delete(client)
     db.session.commit()
