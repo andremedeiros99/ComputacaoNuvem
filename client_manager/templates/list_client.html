@@ -3,6 +3,10 @@
 {% block title %}Lista de Clientes{% endblock %}
 {% block content %}
     <h2>Clientes Cadastrados</h2>
+    <form action="{{ url_for('search_client') }}" method="GET" class="form-inline mb-3">
+        <input type="text" name="query" class="form-control mr-2" placeholder="Buscar por Nome ou CPF">
+        <button type="submit" class="btn btn-primary">Buscar</button>
+    </form>
     <a href="{{ url_for('add_client') }}" class="btn btn-primary mb-3">Adicionar Cliente</a>
     <table class="table table-bordered">
         <thead>
@@ -19,13 +23,11 @@
             <tr>
                 <td>{{ client.name }}</td>
                 <td>{{ client.cpf }}</td>
-                <td>{{ client.birth_date }}</td>  {# Corrigido para birth_date #}
+                <td>{{ client.birth_date }}</td>
                 <td>{{ client.email }}</td>
                 <td>
                     <a href="{{ url_for('edit_client', client_id=client.id) }}" class="btn btn-warning btn-sm">Editar</a>
-                    <form action="{{ url_for('delete_client', client_id=client.id) }}" method="POST" style="display:inline;">
-                        <button type="submit" class="btn btn-danger btn-sm">Excluir</button>
-                    </form>
+                    <a href="{{ url_for('delete_client', client_id=client.id) }}" class="btn btn-danger btn-sm">Excluir</a>
                 </td>
             </tr>
             {% endfor %}

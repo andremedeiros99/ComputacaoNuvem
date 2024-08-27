@@ -68,6 +68,20 @@ def delete_client(client_id):
     db.session.commit()
     return redirect(url_for('list_client'))
 
+@app.route('/search', methods=['GET'])
+def search_client():
+    query = request.args.get('query', '')
+    if query:
+        results = Client.query.filter(
+            (Client.name.ilike(f'%{query}%')) | 
+            (Client.cpf.ilike(f'%{query}%'))
+        ).all()
+    else:
+        results = Client.query.all()
+
+    return render_template('list_client.html', clients=results)
+
+
 if __name__ == '__main__':
     with app.app_context():
         db.create_all()
