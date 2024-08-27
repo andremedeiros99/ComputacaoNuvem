@@ -13,7 +13,7 @@ def index():
 
 @app.route('/clients', methods=['GET'])
 def list_client():
-    clients = Client.query.all()  # Supondo que você tenha um modelo Client
+    clients = Client.query.all()  
     print(clients)
     return render_template('list_client.html', clients=clients)
 
